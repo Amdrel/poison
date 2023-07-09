@@ -1,9 +1,15 @@
 {{ define "main" -}}
-<div class="post">
+<div class="post {{ cond (isset .Params "affiliatelink") "affiliate-post" "self-post" }}">
   {{ partial "post/info.html" . }}
-  {{ .Content }}
   {{ if (.Site.Params.listmonk) }}
     {{ partial "post/listmonk_email_newsletters.html" . }}
+  {{ end }}
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+  {{ if isset .Params "affiliatelink" }}
+    <p><strong>The full article is only available at the following affiliate link:</strong></p>
+    <a href="{{ .Params.affiliatelink }}" target="_blank" rel="noopener">{{ .Title }} &#8599;</a><span></span>
   {{ end }}
   {{ partial "post/navigation.html" . }}
   {{ if or (.Site.Params.remark42) (.Site.Config.Services.Disqus.Shortname) }}

@@ -5,7 +5,11 @@
             <main class="content container">
                 {{ block "main" . -}}{{- end }}
             </main>
-            {{ block "sidebar" . }}{{ end }}
+            {{ block "sidebar" . }}
+                <div class="article-toc {{if .Site.Params.layoutReverse}}layout-reverse{{end}}">
+                    <div class="toc-wrapper"></div>
+                </div>
+            {{ end }}
         </div>
     </body>
 </html>

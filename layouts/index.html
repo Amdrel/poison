@@ -10,7 +10,11 @@
         {{ .Summary }}
         {{ if .Truncated }}
         <div class="read-more-link">
-            <a href="{{ .RelPermalink }}">Read More…</a>
+            {{ if isset .Params "affiliatelink" }}
+                <a href="{{ .Params.affiliatelink }}" target="_blank" rel="noopener">Read More… &#8599;</a>
+            {{ else }}
+                <a href="{{ .RelPermalink }}">Read More…</a>
+            {{ end }}
         </div>
         {{ end }}
         {{ end }}

@@ -6,7 +6,11 @@
         {{ range .Pages }}
             <li>
                 <span class="title">
-                    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    {{ if isset .Params "affiliatelink" }}
+                        <a href="{{ .Params.affiliatelink }}" target="_blank" rel="noopener">{{ .Title }} &#8599;</a><span></span>
+                    {{ else }}
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    {{ end }}
                 </span>
                 <span class="published">
                     <time class="pull-right post-list">{{ .Date | time.Format ":date_long" }}</time>

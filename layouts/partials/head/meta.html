@@ -29,7 +29,7 @@
 {{ with $image_path }}
   {{ $image_path_local :=  printf "assets/%s" $image_path -}}
   {{ $image_ext := trim (path.Ext $image_path | lower) "." -}}
-  {{ if fileExists $image_path_local -}} 
+  {{ if fileExists $image_path_local -}}
     {{ $image_path:= resources.Get $image_path}}
     <meta property="og:image" content="{{ $image_path.RelPermalink }}" />
     {{/* If not SVG, read image aspect ratio and define Twitter Card and Open Graph width and height  */ -}}
@@ -98,15 +98,17 @@
 <!-- To make sure this renders only in the article page, we check the section -->
 {{ if and (eq .Section "posts") (.Page.IsNode) }}
 <!-- Pagination meta tags for list pages only -->
-{{ $paginator := .Paginate (where .Pages "Type" "posts") }}
-{{ if $paginator }}
-  <link rel="first" href="{{ $paginator.First.URL }}" />
-  <link rel="last" href="{{ $paginator.Last.URL }}" />
-  {{ if $paginator.HasPrev }}
-    <link rel="prev" href="{{ $paginator.Prev.URL }}" />
-  {{end }}
-  {{ if $paginator.HasNext }}
-    <link rel="next" href="{{ $paginator.Next.URL }}" />
+{{- if and .Page.IsNode .Page.Paginator -}}
+  {{ $paginator := .Paginate (where .Pages "Type" "posts") }}
+  {{ if $paginator }}
+    <link rel="first" href="{{ $paginator.First.URL }}" />
+    <link rel="last" href="{{ $paginator.Last.URL }}" />
+    {{ if $paginator.HasPrev }}
+      <link rel="prev" href="{{ $paginator.Prev.URL }}" />
+    {{end }}
+    {{ if $paginator.HasNext }}
+      <link rel="next" href="{{ $paginator.Next.URL }}" />
+    {{end }}
   {{end }}
 {{end }}
 
@@ -115,7 +117,7 @@
 <meta property="og:article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" />
 <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00"  }}" />
 
-{{ with (or (.Params.Author) (.Site.Language.Params.Author.Name)) }}
+{{ with (or (.Params.Author) (.Site.Author.name)) }}
   <meta property="og:article:author" content="{{ . }}" />
   <meta property="article:author" content="{{ . }}" />
   <meta name="author" content="{{ . }}" />
